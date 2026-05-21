@@ -14,22 +14,22 @@ export default function MicroFrontend({ remoteComponent, extraProps = {} }: Micr
   useEffect(() => {
     if (!containerRef.current) return () => {};
 
+    const controller = new AbortController();
     let cleanup: (() => void) | undefined;
-    let cancelled = false;
 
-    hydrateIsland(remoteComponent, containerRef.current, {
-      ...extraProps,
-      emit,
-    }).then((c) => {
-      if (cancelled) {
-        c();
-      } else {
+    hydrateIsland(
+      remoteComponent,
+      containerRef.current,
+      { ...extraProps, emit },
+      controller.signal
+    ).then((c) => {
+      if (!controller.signal.aborted) {
         cleanup = c;
       }
     });
 
     return () => {
-      cancelled = true;
+      controller.abort();
       cleanup?.();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps

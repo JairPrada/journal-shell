@@ -19,13 +19,8 @@ export const metadata: Metadata = {
 
 export const importMap = {
   imports: {
-    react: "https://esm.sh/react@18.3.1",
-    "react/jsx-runtime": "https://esm.sh/react@18.3.1/jsx-runtime",
-    "react-dom": "https://esm.sh/react-dom@18.3.1",
-    "react-dom/client": "https://esm.sh/react-dom@18.3.1/client",
     "mf-login": process.env.NEXT_PUBLIC_MF_LOGIN_URL ?? "http://localhost:3001/remoteEntry.js",
     "mf-auth": process.env.NEXT_PUBLIC_MF_AUTH_URL ?? "http://localhost:3002/remoteEntry.js",
-    "vue": "https://esm.sh/vue@3.5.34",
     "mf-personal-data": process.env.NEXT_PUBLIC_MF_PERSONAL_DATA_URL ?? "http://localhost:3003/remoteEntry.js",
   },
 };

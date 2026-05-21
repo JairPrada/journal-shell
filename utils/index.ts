@@ -55,7 +55,8 @@ export const on = (
 export async function hydrateIsland(
     remoteKey: string,
     mountTarget: string | HTMLElement,
-    props: Record<string, unknown> = {}
+    props: Record<string, unknown> = {},
+    signal?: AbortSignal
 ): Promise<Cleanup> {
     const mount =
         typeof mountTarget === 'string'
@@ -68,6 +69,9 @@ export async function hydrateIsland(
 
     try {
         const mfModule = await import(/* webpackIgnore: true */ remoteKey);
+
+        if (signal?.aborted) return () => { };
+
         const exported = mfModule.default;
 
         if (!exported) {
@@ -83,6 +87,12 @@ export async function hydrateIsland(
 
         await (exported as UniversalMF).mount(mount, { ...props, emit });
 
+        if (signal?.aborted) {
+            (exported as UniversalMF).unmount?.(mount);
+            mount.innerHTML = '';
+            return () => { };
+        }
+
         console.info(`[Composer] \u2705 Isla "${remoteKey}" montada en`, mountTarget);
 
         return () => {
@@ -90,6 +100,7 @@ export async function hydrateIsland(
             mount.innerHTML = '';
         };
     } catch (err) {
+        if (signal?.aborted) return () => { };
         console.error(`[Composer] \u274C Error cargando "${remoteKey}":`, err);
         mount.innerHTML = `
       <div style="padding:16px;background:#fce8e6;border:1px solid #ea4335;
