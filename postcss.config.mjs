@@ -1,7 +1,7 @@
-const config = {
-  plugins: {
-    "@tailwindcss/postcss": {},
-  },
-};
+import { defineConfig, globalCss } from "@tailwindcss/vite";
 
-export default config;
+export default {
+  plugins: [
+    require("@tailwindcss/postcss")
+  ]
+};
