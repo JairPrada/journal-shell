@@ -22,6 +22,7 @@ export const importMap = {
     "mf-login": process.env.NEXT_PUBLIC_MF_LOGIN_URL ?? "http://localhost:3001/remoteEntry.js",
     "mf-auth": process.env.NEXT_PUBLIC_MF_AUTH_URL ?? "http://localhost:3002/remoteEntry.js",
     "mf-personal-data": process.env.NEXT_PUBLIC_MF_PERSONAL_DATA_URL ?? "http://localhost:3003/remoteEntry.js",
+    "mf-document-upload": process.env.NEXT_PUBLIC_MF_DOCUMENTS_URL ?? "http://localhost:3004/remoteEntry.js",
   },
 };
 
